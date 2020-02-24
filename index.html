@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title>FreshExplorer</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src='./js/d3_v5.min.js'></script>
+    <link rel="stylesheet" href="./css/materialize.min.css">
+    <link rel="stylesheet" href="./css/luca_css.css">
+    </link>
+    <link rel="stylesheet" href="./css/main_mangroves.css">
+    <link rel="stylesheet" href="./css/navbar_new.css">
+    <script src="./js/jquery.js"></script>
+    <script src='./js/chroma.min.js'></script>
+
+
+
+    <script src='./js/materialize_v1.js'></script>
+    <script src="./js/highcharts.js"></script>
+    <script src="./js/highcharts-more.js"></script>
+    <script src='./js/mapbox-gl.js'></script>
+    <link href='./css/mapbox-gl.css' rel='stylesheet' />
+    <script src='./data/countries_stats.js'></script>
+
+
+</head>
+<script>
+</script>
+
+<body>
+
+    <nav>
+        <div class="nav-wrapper">
+
+            <a href="#!" class="brand-logo"><img
+                    src="https://www.wild.org/wp-content/uploads/2018/09/UNEP-logo-300x156.png" alt=""></a>
+            <form>
+
+                <ul class="right hide-on-med-and-down">
+                    <li>
+                        <!-- Dropdown Trigger -->
+                        <a class='dropdown-trigger' href='#' data-target='dropdown_layers'><i
+                                class="material-icons">layers</i></a>
+
+                        <!-- Dropdown Structure -->
+                        <ul id='dropdown_layers' class='dropdown-content'>
+                            <li><a href="#!"><i class="material-icons fao_gaul_level_0">layers</i>FAO GAUL Level 0</a>
+                            </li>
+                            <li><a href="#!"><i class="material-icons fao_gaul_level_1">layers</i>FAO GAUL Level 1</a>
+                            </li>
+                            <li><a href="#!"><i class="material-icons fao_gaul_level_2">layers</i>FAO GAUL Level 2</a>
+                            </li>
+                            <li class="separator">
+                                <hr>
+                            </li>
+                            <li><a href="#!"><i class="material-icons wwf_hydrobasins_level_3">layers</i>WWF Hydro
+                                    Basins level 3</a></li>
+                            <li><a href="#!"><i class="material-icons wwf_hydrobasins_level_4">layers</i>WWF Hydro
+                                    Basins level 4</a></li>
+                            <li><a href="#!"><i class="material-icons wwf_hydrobasins_level_5">layers</i>WWF Hydro
+                                    Basins level 5</a></li>
+                            <li><a href="#!"><i class="material-icons wwf_hydrobasins_level_6">layers</i>WWF Hydro
+                                    Basins level 6</a></li>
+                            <li><a href="#!"><i class="material-icons wwf_hydrobasins_level_7">layers</i>WWF Hydro
+                                    Basins level 7</a></li>
+                            <li><a href="#!"><i class="material-icons wwf_hydrobasins_level_8">layers</i>WWF Hydro
+                                    Basins level 8</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="center row">
+                            <div class="col s12 ">
+                                <div class="row" id="topbarsearch">
+                                    <div class="input-field col s6 s12">
+                                        <i class="material-icons prefix">search</i>
+                                        <input type="text" placeholder="Search for a country" id="autocomplete-input"
+                                            class="autocomplete blue-text">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="#" class="light_mode" style="display: block!important;"><i
+                                class="material-icons light_mede_button">highlight</i></a></li>
+
+                </ul>
+                <ul class="left">
+                    <li>
+                        <a href="#!" class="jrc-logo"><img
+                                src="https://global-surface-water.appspot.com/gsw/newmockup/img/europelogo.png"
+                                alt=""></a>
+                        <p class="app-title">Freshwater Ecosystems Explorer </p>
+                    </li>
+                </ul>
+
+
+            </form>
+        </div>
+    </nav>
+    <div class="print_disclamer">
+        <form>
+            <ul>
+                <li><a href="#!"><img class="logo_un_img"
+                            src="https://endeva.org/wp-content/uploads/2014/12/UNEP-logo.gif" alt=""></a></li>
+                <li><a href="#!" class="jrc-logo"><img class="logo_jrc_img"
+                            src="https://global-surface-water.appspot.com/gsw/newmockup/img/europelogo.png" alt=""></a>
+                </li>
+                <li>
+                    <p class="print-title">Freshwater Ecosystems Explorer </p>
+                </li>
+
+
+
+            </ul>
+        </form>
+
+
+
+    </div>
+
+
+
+
+    <!-- Modal Structure -->
+    <div id="modal_permanent_seasonal_lakes" class="modal">
+        <div class="modal-content">
+            <h4>Permanent Water Dynamics</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat"><i class="material-icons">close</i></a>
+        </div>
+    </div>
+    <div id="modal_seasonal_lakes" class="modal">
+        <div class="modal-content">
+            <h4>Seasonal Water Dynamics</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat"><i class="material-icons">close</i></a>
+        </div>
+    </div>
+    <div id="modal_reservoirs" class="modal">
+        <div class="modal-content">
+            <h4>Reservoirs</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat"><i class="material-icons">close</i></a>
+        </div>
+    </div>
+    <div id="modal_mangroves" class="modal">
+        <div class="modal-content">
+            <h4>Mangroves</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat"><i class="material-icons">close</i></a>
+        </div>
+    </div>
+    <div id="modal_wetlands" class="modal">
+        <div class="modal-content">
+            <h4>Wetlands</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat"><i class="material-icons">close</i></a>
+        </div>
+    </div>
+    <div id="modal_lake_quality" class="modal">
+        <div class="modal-content">
+            <h4>Lake Quality</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat"><i class="material-icons">close</i></a>
+        </div>
+    </div>
+
+
+
+
+
+    <ul id="slide-out" class="sidenav">
+
+        <ul class="collapsible">
+            <li class='country_li main_li'>
+
+                <div class="card horizontal collapsible-header_country">
+                    <div class="card-image">
+                        <!-- <img src="./img/sdg6.png" style="width:100px;height:100px">-->
+                    </div>
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <span class="card-title card-title_country">Country data</span>
+                            <p class="country_name_header"></p>
+                            <div><i onclick="window.print()" class="material-icons pdf_print">picture_as_pdf</i></div>
+                            <div><i class="material-icons csv_export_all">cloud_download</i></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="country_profile">
+                    <table class="centered">
+                        <thead>
+                            <tr>
+                                <th>Country Area (km <sup>2</sup>)</th>
+                                <th>Total Population</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td>20,000,00</td>
+                            <td>100,000,000</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="collapsible-body" style="display: block">
+
+                    <h3 class="subheader">Lakes and Rivers</h3>
+
+                    <ul class="list">
+
+                        <li>
+                            <div class="valign-wrapper row summary" info_container="permanent_lake">
+                                <div class="col s2 hide_print">
+                                    <i class="material-icons left highlight layers">layers</i>
+                                    <i class="material-icons left show info">add_circle_outline</i>
+                                    <!-- Modal Trigger -->
+                                    <i class="modal_li"><a class="modal-trigger"
+                                            href="#modal_permanent_seasonal_lakes"><i
+                                                class="material-icons icon_info">info</i></a></i>
+                                </div>
+                                <div class="col s4">
+                                    <span class="title show">Permanent water dynamics</span>
+                                </div>
+                                <div class="col s3">
+                                    <span class="title"><span
+                                            class='gain_loss_permanent_lake_percentage text_color_bad_percentage'>16,1%</span>
+                                        <div id="line_color_bad_percentage" style="width:16.1%" ;=""></div>
+                                    </span>
+                                </div>
+                                <div class="col s3">
+                                    <span class="title"><span
+                                            class='gain_loss_permanent_lake_km text_color_bad_km'>100,000
+                                            Km<sup>2</sup></span></span>
+                                </div>
+                                <div class="col s2">
+                                    <span class="title"><span class='gain_loss_permanent_lake_desc text_color_bad_desc'>
+                                            <a class=" tooltipped" data-position="bottom"
+                                                data-tooltip="Loss since year 2000"><i
+                                                    class="material-icons">arrow_drop_down</i></a></span></span>
+                                </div>
+                            </div>
+                            <div class="valign-wrapper row summary" info_container="seasonal_lake">
+                                <div class="col s2 hide_print">
+                                </div>
+                                <div class="col s4">
+                                    <span class="title show">Seasonal water dynamics</span>
+                                </div>
+                                <div class="col s3">
+                                    <span class="title"><span
+                                            class='gain_loss_seasonal_lake_percentage text_color_good_percentage'>20,6%</span>
+                                        <div id="line_color_good_percentage" style="width:20.6%" ;=""></div>
+                                    </span>
+                                </div>
+                                <div class="col s3">
+                                    <span class="title"><span
+                                            class='gain_loss_seasonal_lake_km text_color_good_km'>40,000
+                                            Km<sup>2</sup></span></span>
+                                </div>
+                                <div class="col s2">
+                                    <span class="title"><span
+                                            class='gain_loss_seasonal_lake_desc text_color_good_desc'><a
+                                                class=" tooltipped" data-position="bottom"
+                                                data-tooltip="Gain since year 2000"><i
+                                                    class="material-icons">arrow_drop_up</i></a></span></span>
+                                </div>
+                            </div>
+
+                        </li>
+
+                    </ul>
+
+                    <h3 class="subheader">Reservoirs</h3>
+                    <ul class="list">
+
+                        <li>
+                            <div class="valign-wrapper row summary" info_container="reservoirs">
+                                <div class="col s2 hide_print">
+                                    <i class="material-icons left highlight layers">layers</i>
+                                    <i class="material-icons left show info">add_circle_outline</i>
+                                    <!-- Modal Trigger -->
+                                    <i class="modal_li"><a class="modal-trigger" href="#modal_reservoirs"><i
+                                                class="material-icons icon_info">info</i></a></i>
+                                </div>
+                                <div class="col s4">
+                                    <span class="title show">Reservoirs dynamics</span>
+                                </div>
+                                <div class="col s3">
+                                    <span class="title"><span
+                                            class='gain_loss_reservoirs_percentage text_color_bad_percentage'>23,9%</span>
+                                        <div id="line_color_bad_percentage" style="width:23.9%" ;=""></div>
+                                    </span>
+                                </div>
+                                <div class="col s3">
+                                    <span class="title"><span class='gain_loss_reservoirs_km text_color_bad_km'>140,000
+                                            Km<sup>2</sup></span></span>
+                                </div>
+                                <div class="col s2">
+                                    <span class="title"><span class='gain_loss_reservoirs_desc text_color_bad_desc'><a
+                                                class=" tooltipped" data-position="bottom"
+                                                data-tooltip="Loss since year 2000"><i
+                                                    class="material-icons">arrow_drop_down</i></a></span></span>
+                                </div>
+                            </div>
+
+                        </li>
+
+                    </ul>
+
+
+                    <h3 class="subheader">Mangroves</h3>
+                    <ul class="list">
+                        <li>
+                            <div class="valign-wrapper row mangroves_summary multiple_lines summary"
+                                info_container="mangroves">
+                                <div class="col s2 hide_print">
+                                    <i class="material-icons left highlight layers">layers</i>
+                                    <i class="material-icons left show info">add_circle_outline</i>
+                                    <!-- Modal Trigger -->
+                                    <i class="modal_li"><a class="modal-trigger" href="#modal_mangroves"><i
+                                                class="material-icons icon_info">info</i></a></i>
+                                </div>
+                                <div class="col s4">
+                                    <span class="title show">Mangroves</span>
+                                </div>
+                                <div class="col s3">
+                                    <span class="title"><span
+                                            class='gain_loss_mangroves_percentage text_color_good_percentage'>4,6%</span>
+                                        <div id="line_color_good_percentage" style="width:4.6%" ;=""></div>
+                                    </span>
+                                </div>
+                                <div class="col s3">
+                                    <span class="title"><span class='gain_loss_mangroves_km text_color_good_km'>10,000
+                                            Km<sup>2</sup></span></span>
+                                </div>
+                                <div class="col s2">
+                                    <span class="title"><span class='gain_loss_mangroves_desc text_color_good_desc'><a
+                                                class=" tooltipped" data-position="bottom"
+                                                data-tooltip="Gain since year 2000"><i
+                                                    class="material-icons">arrow_drop_up</i></a></span></span>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <h3 class="subheader">Wetlands</h3>
+                    <ul class="list">
+                        <li>
+                            <div class="valign-wrapper row wetlands_summary multiple_lines summary"
+                                info_container="wetlands">
+                                <div class="col s2 hide_print">
+                                    <i class="material-icons left highlight layers">layers</i>
+                                    <i class="material-icons left show info">add_circle_outline</i>
+                                    <!-- Modal Trigger -->
+                                    <i class="modal_li"><a class="modal-trigger" href="#modal_wetlands"><i
+                                                class="material-icons icon_info">info</i></a></i>
+                                </div>
+                                <div class="col s4">
+                                    <span class="title show">Wetlands</span>
+                                </div>
+                                <div class="col s3">
+                                    <span class="title"><span
+                                            class='gain_loss_wetlands_percentage text_color_bad_percentage'>60,6%</span>
+                                        <div id="line_color_bad_percentage" style="width:60.6%" ;=""></div>
+                                    </span>
+                                </div>
+                                <div class="col s3">
+                                    <span class="title"><span class='gain_loss_wetlands_km text_color_bad_km'>500,000
+                                            Km<sup>2</sup></span></span>
+                                </div>
+                                <div class="col s2">
+                                    <span class="title"><span class='gain_loss_wetlands_desc text_color_bad_desc'><a
+                                                class=" tooltipped" data-position="bottom"
+                                                data-tooltip="Loss since year 2000"><i
+                                                    class="material-icons">arrow_drop_down</i></a></span></span>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <h3 class="subheader">Lake quality</h3>
+                    <ul class="list">
+                        <li>
+                            <div class="valign-wrapper row summary" info_container="quality_lake_turbidity">
+                                <div class="col s2 hide_print">
+                                    <i class="material-icons left highlight layers">layers</i>
+                                    <i class="material-icons left show info">add_circle_outline</i>
+                                    <!-- Modal Trigger -->
+                                    <i class="modal_li"><a class="modal-trigger" href="#modal_lake_quality"><i
+                                                class="material-icons icon_info">info</i></a></i>
+                                </div>
+                                <div class="col s4">
+                                    <span class="title show">Turbidity State</span>
+                                </div>
+                                <div class="col s2">
+                                    <span class="title"><span
+                                            class='lake_quality_events lake_quality_events_turbidity'>11</span></span>
+                                </div>
+                                <div class="col s2">
+                                    <span class="title"><span class='lake_quality_events_desc'>Events</span></span>
+                                </div>
+                                <div class="col s2">
+                                    <span class="title"><span
+                                            class='lake_quality_lakes lake_quality_events_turbidity'>6</span></span>
+                                </div>
+                                <div class="col s2">
+                                    <span class="title"><span class='lake_quality_lakes_desc'>Lakes
+                                            involved</span></span>
+                                </div>
+                            </div>
+                            <div class="valign-wrapper row summary" info_container="quality_lake_trophic">
+                                <div class="col s2 hide_print">
+                                </div>
+                                <div class="col s4">
+                                    <span class="title show">Trophic State</span>
+                                </div>
+                                <div class="col s2">
+                                    <span class="title"><span
+                                            class='lake_quality_events lake_quality_events_trophic'>41</span></span>
+                                </div>
+                                <div class="col s2">
+                                    <span class="title"><span class='lake_quality_events_desc'>Events</span></span>
+                                </div>
+                                <div class="col s2">
+                                    <span class="title"><span
+                                            class='lake_quality_lakes lake_quality_events_trophic'>5</span></span>
+                                </div>
+                                <div class="col s2">
+                                    <span class="title"><span class='lake_quality_lakes_desc'>Lakes
+                                            involved</span></span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div id="separator"></div>
+
+                </div>
+                <div class="print_disclamer">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Numquam obcaecati
+                    nobis quam nemo cum, quas amet vel ipsam esse officia, nihil, culpa consequatur labore voluptas
+                    impedit qui laborum deserunt error.</div>
+            </li>
+
+            <li class='mangroves_li main_li' style="display: none">
+
+                <div class="card horizontal collapsible-header">
+                    <div class="card-image">
+                        <!----  <img src="./img/sdg6.png" style="width:100px;height:100px"> -->
+                    </div>
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <span class="card-title">Mangroves</span>
+                            <span class="years_info"></span>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="collapsible-body">
+                    <div class="mangroves">
+
+                        <div class="row">
+
+                            <div class="legend col s6">
+                                <div class='gain_loss_title'>Gain</div>
+
+                                <div class="col s8">
+                                    <div>
+                                        <p><i style="background:#ffc75f"></i><em>&lt;5% Stable</em></p>
+                                    </div>
+                                    <div>
+                                        <p><i style="background:#c7860e"></i><em> 5% – 10% Some</em></p>
+                                    </div>
+                                    <div>
+                                        <p><i style="background:#5e3e02"></i> <em> &gt;10% Extreme</em></p>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="circle_container col s4">
+
+                                    <svg width="100px" height="100px">
+                                        <circle cx="50" cy="50" fill="#1f77b4" r="40"></circle>
+                                        <text id="gain_circle_text" x="50%" y="50%" text-anchor="middle" fill="white"
+                                            font-size="30px" font-family="Arial" dy="10px">2.2</text>
+                                    </svg>
+                                    <!-- <div class="circle">
+                                                ICON
+                                            </div> -->
+                                </div>
+
+                            </div>
+
+                            <div class="legend col s6">
+                                <div class='gain_loss_title'>Loss</div>
+
+                                <div class="col s8">
+                                    <div>
+                                        <p><i style="background:#ffc75f"></i><em>&lt;5% Stable</em></p>
+                                    </div>
+                                    <div>
+                                        <p><i style="background:#c7860e"></i><em> 5% – 10% Some</em></p>
+                                    </div>
+                                    <div>
+                                        <p><i style="background:#5e3e02"></i> <em>&gt;10% Extreme</em></p>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="circle_container col s4">
+
+                                    <svg width="100px" height="100px">
+                                        <circle cx="50" cy="50" fill="#1f77b4" r="40"></circle>
+                                        <text id="loss_circle_text" x="50%" y="50%" text-anchor="middle" fill="white"
+                                            font-size="30px" font-family="Arial" dy="10px">2.2</text>
+                                    </svg>
+                                    <!-- <div class="circle">
+                                                    ICON
+                                                </div> -->
+                                </div>
+
+                            </div>
+
+
+                            <div class='row'>
+                                <div class="mangroves_balance"></div>
+                            </div>
+
+
+                            <div class='row'>
+                                <div id="mangroves_double_chart" class="col s12"></div>
+                            </div>
+                            <!-- <h3 class="subheader">Mangroves</h3> -->
+
+                            <div class='show_hide_table'><i class="material-icons">list</i></div>
+                            <div class="mangroves_table"></div>
+                        </div>
+                    </div>
+            </li>
+            <li class='lakes_li main_li' style="display: none">
+
+                <div class="card horizontal collapsible-header">
+                    <div class="card-image">
+                        <!----  <img src="./img/sdg6.png" style="width:100px;height:100px"> -->
+                    </div>
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <span class="card-title">Lakes</span>
+                            <p>Lakes data</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="collapsible-body">
+                    <div class="permanent_lake">
+                        <h3 class="subheader">Permanent lakes</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Spatial Area (sqKm)</th>
+                                    <th>Change from baseline (sqKm)</th>
+                                    <th>Change from baseline %</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td>2000-2004 (baseline)</td>
+                                    <td>980,000</td>
+                                    <td>90,000</td>
+                                    <td>0.87</td>
+                                </tr>
+                                <tr>
+                                    <td>2005-209</td>
+                                    <td>380,000</td>
+                                    <td>10,000</td>
+                                    <td>3.76</td>
+                                </tr>
+                                <tr>
+                                    <td>2009-2015</td>
+                                    <td>150,000</td>
+                                    <td>10,000</td>
+                                    <td>7.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="seasonal_lake">
+                        <h3 class="subheader">Seasonal lakes</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Spatial Area (sqKm)</th>
+                                    <th>Change from baseline (sqKm)</th>
+                                    <th>Change from baseline %</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td>2000-2004 (baseline)</td>
+                                    <td>980,000</td>
+                                    <td>90,000</td>
+                                    <td>0.87</td>
+                                </tr>
+                                <tr>
+                                    <td>2005-209</td>
+                                    <td>380,000</td>
+                                    <td>10,000</td>
+                                    <td>3.76</td>
+                                </tr>
+                                <tr>
+                                    <td>2009-2015</td>
+                                    <td>150,000</td>
+                                    <td>10,000</td>
+                                    <td>7.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="quality_lake">
+                        <h3 class="subheader">Lake quality</h3>
+                        <p class="nodata_av">No data available</p>
+                    </div>
+
+            </li>
+
+            <li class='reservoirs_li main_li' style="display: none">
+
+                <div class="card horizontal collapsible-header">
+                    <div class="card-image">
+                        <!----  <img src="./img/sdg6.png" style="width:100px;height:100px"> -->
+                    </div>
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <span class="card-title">Reservoirs</span>
+                            <p>Reservoirs data</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="collapsible-body">
+                    <div class="reservoirs">
+                        <h3 class="subheader">Reservoirs area</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Spatial Area (sqKm)</th>
+                                    <th>Change from baseline (sqKm)</th>
+                                    <th>Change from baseline %</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td>2000-2004 (baseline)</td>
+                                    <td>80,000</td>
+                                    <td>10,000</td>
+                                    <td>0.87</td>
+                                </tr>
+                                <tr>
+                                    <td>2005-209</td>
+                                    <td>380,000</td>
+                                    <td>10,000</td>
+                                    <td>3.76</td>
+                                </tr>
+                                <tr>
+                                    <td>2009-2015</td>
+                                    <td>150,000</td>
+                                    <td>10,000</td>
+                                    <td>7.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </ul>
+
+
+    <div id='map'>
+    </div>
+
+    <script>
+
+        var flying_sel_f, clicked_sel_f;
+        var fxs = {};
+        var flying = false;
+
+        function sort_by_value(a, b) {
+
+            return a.y < b.y ? 1 : -1;
+        }
+
+        function round_this(someNumber, digits) {
+            switch (digits) {
+                case 1:
+                    var p = 1e1;
+                    break;
+                case 2:
+                    var p = 1e2;
+                    break;
+                case 3:
+                    var p = 1e3;
+                    break;
+                case 4:
+                    var p = 1e4;
+                    break;
+            }
+            return Math.round(someNumber * p) / p;
+        }
+
+        var map_popup;
+
+        var selects = {
+
+        };
+
+        map = new mapboxgl.Map({
+            container: 'map',
+            attributionControl: false,
+
+            center: [0, 20],
+            style: {
+                "version": 8,
+                "sources": {
+                    "geoserver": {
+                        "type": "vector",
+                        "tiles": [
+                            "https://geospatial.jrc.ec.europa.eu/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=hotspots:gaul_0_simplified&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=application/vnd.mapbox-vector-tile&TILECOL={x}&TILEROW={y}"
+                        ],
+                    }
+                },
+                "layers": [{
+                    "id": "gaul_0_simple",
+                    "source": "geoserver",
+                    "source-layer": "gaul_0_simplified",
+                    "type": "fill",
+                    'paint': {
+                        "fill-color": "#072333",
+                        "fill-outline-color": "#041620",
+                        "fill-opacity": 1
+
+                    }
+                }]
+            },
+
+            zoom: 2,
+            _id: 'mapboxid',
+            pitchWithRotate: false,
+            dragRotate: false,
+            touchZoomRotate: false
+        }).addControl(new mapboxgl.NavigationControl({
+            //  showCompass: false
+        }), 'bottom-right');
+        // disable map rotation using right click + drag
+        map.dragRotate.disable();
+
+        // disable map rotation using touch rotation gesture
+        map.touchZoomRotate.disableRotation();
+
+        //     $('.my-custom-control').show();
+        var hovering_map = true;
+
+        map.on('load', function () {
+
+            map_popup = new mapboxgl.Popup({
+                closeButton: false,
+                closeOnClick: true,
+                //offset: [20, -20]
+                offset: {
+                    'bottom': [0, -20],
+                    'top': [0, 55],
+                    'top-left': [0, 0], //[linearOffset, (markerHeight - markerRadius - linearOffset) * -1],
+                    'top-right': [0, 0], //[-linearOffset, (markerHeight - markerRadius - linearOffset) * -1],
+                }
+            });
+
+            map.addSource("gaul_0_simple_lines", {
+                "type": "vector",
+                "tiles": ["https://geospatial.jrc.ec.europa.eu/geoserver/gwc/service/wmts?layer=hotspots:gaul_0_simple_lines&tilematrixset=EPSG:900913&Service=WMTS&Request=GetTile&Version=1.0.0&Format=application/x-protobuf;type=mapbox-vector&TileMatrix=EPSG:900913:{z}&TileCol={x}&TileRow={y}"]
+            });
+            map.addLayer({
+                "id": "gaul_0_clicked",
+                "type": "line",
+                "source": "gaul_0_simple_lines",
+
+                "source-layer": "gaul_0_simple_lines",
+                'layout': {
+                    'visibility': 'none'
+
+                },
+                'paint': {
+                    //purple, when click
+                    'line-color': "#00aced",
+                    'line-width': 1
+
+                },
+                'filter': ['any', ['==', 'adm_0_code', '']]
+
+            });
+
+            map.addLayer({
+                "id": "gaul_0_mouseover",
+                "source": "geoserver",
+                "source-layer": "gaul_0_simplified",
+                'layout': {
+                    'visibility': 'none'
+
+                },
+                "type": "fill",
+                'paint': {
+                    "fill-color": "#fff",
+                    "fill-outline-color": "#061b27",
+                    "fill-opacity": 0.1
+
+                },
+                'filter': ['any', ['==', 'adm_0_code', '']]
+
+            });
+
+            // WETLANDS LAYER FROM GOOGLE
+
+            map.addSource('wetlands', {
+                'type': 'raster',
+                'tiles': [
+                    'https://storage.googleapis.com/global-surface-water/maptiles/wetlands/{z}/{x}/{y}.png'
+                ],
+                'tileSize': 256
+            });
+
+            map.addLayer(
+                {
+                    'id': 'wetlands',
+                    'type': 'raster',
+                    'source': 'wetlands',
+                    'paint': {}
+                }
+            );
+
+            // TEST LAYER FROM GEOSERVER
+
+            map.addSource('wms-test-source', {
+                'type': 'raster',
+                'tiles': [
+                    'https://geospatial.jrc.ec.europa.eu/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=freshwater:transition&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=image/png&TILECOL={x}&TILEROW={y}'
+                ],
+                'tileSize': 256
+            });
+
+            function throttle(fn, threshhold, scope) {
+                threshhold || (threshhold = 150);
+                var last,
+                    deferTimer;
+                return function () {
+                    var context = scope || this;
+
+                    var now = +new Date,
+                        args = arguments;
+                    if (last && now < last + threshhold) {
+                        // hold on to it
+                        clearTimeout(deferTimer);
+                        deferTimer = setTimeout(function () {
+                            last = now;
+                            fn.apply(context, args);
+                        }, threshhold);
+                    } else {
+                        last = now;
+                        fn.apply(context, args);
+                    }
+                };
+            }
+
+            map.on("mousemove", function (e) {
+                if (!map.loaded()) {
+                    return
+                }
+                // console.log(e)
+
+                if (hovering_map == false)
+                    return false;
+
+                mousemove_map({
+                    sel_ev: e
+                })
+
+            })
+
+        })
+
+        function mousemove_map(sel_f) { // flying_sel_f = { sel_code: code, sel_latlng: d.centroid };
+            //  console.log(sel_f)
+            var zoom = map.getZoom();
+            if (sel_f.sel_ev) {
+                //not triggered, really moving the cursor over a country
+                var e = sel_f.sel_ev;
+                var latlng = e.lngLat;
+                var x = e.originalEvent.clientX
+                var y = e.originalEvent.clientY
+
+                var features = map.queryRenderedFeatures(e.point, {
+                    layers: ['gaul_0_simple']
+                });
+            } else {
+
+                //triggering a mousemove event from gain/loss table
+                //console.log(sel_f)
+                // var latlng = sel_f.sel_latlng;
+
+                // var features = map.querySourceFeatures("eez_source", {
+                //     sourceLayer: 'eez_land',
+                //     filter: ['any', ['==', 'iso3', sel_f.sel_code]]
+                // });
+            }
+            var feature = getUniqueFeatures(features, 'iso3');
+            //only layers that we are mouseovering...
+
+            var html = '';
+
+
+            if (feature.length == 0) {
+                map.setLayoutProperty('gaul_0_mouseover', "visibility", "none");
+                //   map.setPaintProperty('eez_land_id', "fill-opacity", 0);
+                if (map_popup) map_popup.remove();
+            }
+            feature.forEach(function (f) {
+
+                var adm_0_id = f.properties.adm_0_id;
+
+                html += ' <div class="country_popup small_popup" attr-id="' + f.properties.adm_0_name + '">' +
+                    '<div class="section"> <div class="adm_name">' + f.properties.adm_0_name + '</div></div>' + '<div id="popup_container"></div>' + '</div>'
+
+                map_popup.setLngLat(latlng);
+
+                if ($('.country_popup').length == 0) {
+                    //if not present the popup or we are on a different country...
+                    map_popup.setHTML(html) //<hr>'+feature.properties.adm_0_name)
+                        .addTo(map);
+                    setTimeout(function () {
+                        map.setFilter('gaul_0_mouseover', ['==', 'adm_0_id', adm_0_id]);
+                        map.setLayoutProperty('gaul_0_mouseover', "visibility", "visible");
+
+                    }, 10)
+                } else {
+
+                    if ($('.country_popup').attr('attr-id') !== adm_0_id) {
+                        map_popup.setHTML(html)
+                        setTimeout(function () {
+                            map.setFilter('gaul_0_mouseover', ['==', 'adm_0_id', adm_0_id]);
+                            map.setLayoutProperty('gaul_0_mouseover', "visibility", "visible");
+
+                        }, 10)
+                    }
+                }
+                //   }
+
+            })
+        }
+        function getUniqueFeatures(array, comparatorProperty) {
+
+            var existingFeatureKeys = {};
+            var uniqueFeatures = array.filter(function (el) {
+                if (existingFeatureKeys[el.properties[comparatorProperty]]) {
+                    return false;
+                } else {
+                    existingFeatureKeys[el.properties[comparatorProperty]] = true;
+                    return true;
+                }
+            });
+
+            return uniqueFeatures;
+        }
+        var y = 1;
+        var canvas = map.getCanvasContainer();
+
+        function getRandomInRange(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        var features_arr = [];
+
+        function get_mangroves_stats(info) {
+            //debugger;
+            var $def = $.Deferred();
+            $.ajax({
+                url: './php/mangroves_country_by_code.php',
+                type: 'GET',
+
+                data: {
+                    adm_0_code: info.adm0_code
+                },
+
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response.features.length)
+
+                    if (response.features.length > 0)// !== undefined) {
+                    {
+                        console.info('resolved ')
+                        $def.resolve(response)
+                    }
+                    else {
+                        $def.reject()
+                    }
+
+                    return response.features[0];
+                }
+            });
+
+            return $def.promise();
+        }
+
+
+        function request_info(info) {
+
+            var deferred_query = $.Deferred(); //use the jQuery Deferred object
+            var promise_test = get_wetlands_stats(info);
+
+            promise_test.done(function (data) {
+                console.info(data);
+
+
+                deferred_query.resolve();
+            })
+        }
+
+        function get_wetlands_stats(info) {
+            //debugger;
+            var $def = $.Deferred();
+            $.ajax({
+                url: './php/wetlands_country_by_code.php',
+                type: 'GET',
+
+                data: info,
+
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response)
+
+                    if (response.features.wet_area)// !== undefined) {
+                    {
+                        $('.gain_loss_wetlands_km').html(response.features.wet_area + ' Km<sup>2</sup>')
+                        $def.resolve(response)
+                    }
+                    else {
+                        $def.reject()
+                    }
+
+                    return response.features[0];
+                }
+            });
+
+            return $def.promise();
+        }
+
+        function populate_mangroves(info) {
+
+            var data = {};
+            console.info(info)
+            var mangroves_info = info.mangroves_info;
+
+            var mangroves_table = '<table class="striped highlight responsive-table"> <thead> <tr> <th></th> <th>Total extent (sqKm)</th> <th>Gain (sqKm)</th> <th>Loss (sqKm)</th> </tr> </thead> <tbody>';
+
+            var perc_change = [];
+            var total_extent = [];
+            var data_length = Object.keys(mangroves_info.data).length;
+            var i = 0;
+
+            for (var p in mangroves_info.data) {
+                var _t = mangroves_info.data[p];
+                // console.log(_t)
+                perc_change.push(round_this(_t.percent_change, 2));
+                total_extent.push(round_this(_t.total_extent, 2));
+                if (i == data_length - 1) {
+
+                    data.gain = round_this(_t.gain, 2);
+                    data.gain_percent = round_this(_t.gain_percent_percent, 2);
+                    if (_t.gain_percent < 1) {
+                        data.gain_percent = round_this(_t.gain_percent, 2);
+                    } else {
+                        data.gain_percent = round_this(_t.gain_percent, 1);
+                    }
+
+                    switch (true) {
+                        case (data.gain_percent <= 5):
+                            var gain_color = '#ffc75f';
+                            break;
+
+                        case (data.gain_percent >= 5 && data.gain_percent <= 10):
+                            var gain_color = '#c7860e';
+                            break;
+
+                        case (data.gain_percent >= 10):
+                            var gain_color = '#5e3e02';
+                            break;
+
+
+                    }
+
+                    $('#gain_circle_text').html(data.gain_percent).prev().attr('fill', gain_color);
+
+                    // since year 2000 - 70 sqKm</span>
+
+                    data.loss_percent = round_this(_t.loss_percent, 2);
+                    data.loss = round_this(_t.loss, 2);
+                    if (_t.loss_percent < 1) {
+                        data.loss_percent = round_this(_t.loss_percent, 2);
+
+                    } else {
+                        data.loss_percent = round_this(_t.loss_percent, 1);
+
+                    }
+
+
+                    switch (true) {
+                        case (data.loss_percent <= 5):
+                            var loss_color = '#ffc75f';
+                            break;
+
+                        case (data.loss_percent >= 5 && data.loss_percent <= 10):
+                            var loss_color = '#c7860e';
+                            break;
+
+                        case (data.loss_percent >= 10):
+                            var loss_color = '#5e3e02';
+                            break;
+
+
+                    }
+                    $('.mangroves_li .years_info').text(' Years 2000 - ' + mangroves_info.last_year);
+                    var summary = '<div>';
+                    var balance = round_this((data.gain_percent - data.loss_percent), 2);
+
+                    var balance_sqkm = data.gain - data.loss;
+                    if (balance > 0) {
+
+                        summary += "<span class='gain_loss gain_loss_mang  text_color_good'>" + balance + "% </span> gain since 2000 - " + +mangroves_info.last_year + " (" + round_this(balance_sqkm, 1) + " Km<sup>2</sup>)</span>";
+                    } else {
+                        summary += "<span class='gain_loss gain_loss_mang  text_color_bad'>" + Math.abs(balance) + "% </span> loss between 2000 and " + +mangroves_info.last_year + " (" + round_this(balance_sqkm, 1) + " Km<sup>2</sup>)</span>";
+                    }
+
+                    summary += '</div>'; //closing .mangroves_summary pop_summary
+                    $('.mangroves_summary').find('.col.s8').html(summary);
+
+                    $('#loss_circle_text').html(data.loss_percent).prev().attr('fill', loss_color)
+
+
+                    //  var incomplete = 100 - data.gain;
+                    data.gain_data = [{
+                        "name": "Gain",
+                        "y": _t.gain,
+                        "color": '#b6e084'
+                    }];
+                    data.loss = _t.loss;
+                    data.loss_data = [{
+                        "name": "Loss",
+                        "y": _t.loss,
+                        "color": '#e91e63'
+                    }];
+                }
+                mangroves_table += '<tr><td>' + p + '</td><td>' + _t.total_extent + '</td><td>' + _t.gain + '</td><td>' + _t.loss + '</td></tr>'
+
+                i++;
+            }
+
+            mangroves_table += ' </tbody></table>';
+
+            $('.mangroves_table').empty().append(mangroves_table);
+
+            if ($('.sidenav').hasClass('sidenav_on') == false) {
+                $('#slide-out').sidenav('open');
+                $('.sidenav').addClass('sidenav_on');
+            }
+            mangroves_info.perc_change = perc_change;
+            mangroves_info.total_extent = total_extent;
+
+            selects.mangroves_info = mangroves_info;
+
+            //{ years: years, perc_change: perc_change, total_extent: total_extent };
+            console.log(selects)
+            if ($('#mangroves_double_chart').is(':visible'))
+                update_double_mangrove_chart()
+            //highcarts needs to be visible the div
+            //only when user click over mangroves, we produce the chart (navbar_events.js)
+
+        }  //end populate_mangroves
+
+        map.on('click', function (e) {
+
+            //LUCA SPECIFIC CHANGES
+            if ($('.sidenav').hasClass('sidenav_on') == false) {
+                $('#slide-out').sidenav('open');
+                $('.sidenav').addClass('sidenav_on');
+            }
+            //end of LUCA SPECIFIC CHANGES
+
+            if (hovering_map == false || flying == true)
+                return false;
+            //alert('safsad')
+
+            var country_f = map.queryRenderedFeatures(e.point, {
+                layers: ['gaul_0_simple'] // replace this with the name of the layer
+                //gaul_0_fixed
+            })[0];
+            if (typeof country_f !== 'undefined') {
+
+                // fxs.click_map({
+                //     sel_ev: e
+                // });
+                //  return false;       
+                var code = country_f.properties.adm_0_code;
+
+                request_info({ layer_type: 'gaul_0', code: code })
+                // populate_info(layer)
+                var deferred_query = $.Deferred(); //use the jQuery Deferred object
+                var promise_test = get_mangroves_stats({ adm0_code: code });
+
+                promise_test.done(function (data) {
+                    console.info('done');
+                    var data = data.features[0];
+
+                    var this_data = countries_data.filter(function (d) {
+
+                        return d.adm_0_code == code;
+                    })[0];
+                    console.log(this_data)
+                    $('.country_li').find('.card-content .card-title').text(this_data.adm_0_name)
+                    var coords = this_data.bbox.coordinates;
+                    //USA
+                    if (this_data.adm_0_code == 259) {
+                        var bbox = [
+                            [-198.281250, 19.808054],
+                            [-31.025391, 69.595890]
+                        ];
+                    } else {
+                        var bbox = [coords[0][2], coords[0][0]];
+                        //  var bbox = [[-198.281250 19.808054], [-31.025391 69.595890]];
+                    }
+                    console.log(bbox)
+
+                    map.flyTo({
+                        center: this_data.centroid,
+                        offset: [100, 100],
+                        // speed: 0.1,
+                        // curve: .6,
+                        essential: true
+                    });
+
+                    map.setLayoutProperty('gaul_0_mouseover', "visibility", "none");
+                    map.setLayoutProperty('gaul_0_clicked', "visibility", "visible");
+                    map.setFilter('gaul_0_clicked', ['==', 'adm_0_code', code]);
+
+                    this_data.mangroves_info = data;
+                    populate_mangroves(this_data);
+
+                    deferred_query.resolve();
+                })
+                    .fail(function () {
+                        deferred_query.reject('SOMETHING WRONG');
+                        // alert('No mangroves data in this country')
+                        return deferred_query;
+                    });
+
+
+
+            }
+
+        })
+
+
+
+        // NIGHT AND DAY MODE
+
+        $('.light_mode').on('click', function (e) {
+            if ($(".mapboxgl-map").css('background-color') == "rgb(4, 22, 32)") {
+                $('.mapboxgl-map').css("background-color", "rgb(161, 180, 193)");
+                $('.light_mede_button').css("color", "#ffffff");
+                $('html').css("color", "#061b27");
+                $('.sidenav').css("background-color", "#ffffff");
+                $('.country_li').css("background-color", "#ffffff").css("color", "#061b27");
+                $('.mangroves_li').css("background-color", "#ffffff").css("color", "#061b27");
+                $('.lakes_li').css("background-color", "#ffffff").css("color", "#061b27");
+                $('.reservoirs_li').css("background-color", "#ffffff").css("color", "#061b27");
+                $('#slide-out > ul > li.mangroves_li.main_li.active > div.collapsible-body > div > div > div:nth-child(2) > div > div > p > em').css("color", "#061b27");
+                $(".list .row").css("border-bottom-color", "#e8e8e8");
+                $(".subheader").css("border-bottom-color", "#00aed9").css("color", "#00aed9");
+                $(".collapsible-body table").css("color", "#061b27");
+                map.setPaintProperty('gaul_0_simple', 'fill-color', '#dae0e4');
+                map.setPaintProperty('gaul_0_simple', 'fill-outline-color', '#a1b4c1');
+                map.setPaintProperty('gaul_0_simple', 'fill-opacity', 0.8);
+                $('.card-title_country').css("color", "#ffffff");
+                $('.csv_export_all').css("color", "#ffffff");
+                $('.pdf_print').css("color", "#ffffff");
+                $('.score_adjust').css("color", "#061b27");
+
+            } else {
+                $('.mapboxgl-map').css("background-color", "rgb(4, 22, 32)");
+                $('.light_mede_button').css("color", "#00aced");
+                $('html').css("color", "#ffffff");
+                $('.sidenav').css("background-color", "#061b27");
+                $('.country_li').css("background-color", "#061b27").css("color", "#ffffff");
+                $('.mangroves_li').css("background-color", "#061b27").css("color", "#ffffff");
+                $('.lakes_li').css("background-color", "#061b27").css("color", "#ffffff");
+                $('.reservoirs_li').css("background-color", "#061b27").css("color", "#ffffff");
+                $('#slide-out > ul > li.mangroves_li.main_li.active > div.collapsible-body > div > div > div:nth-child(2) > div > div > p > em').css("color", "#ffffff");
+                $(".list .row").css("border-bottom-color", "#061f2d");
+                $(".subheader").css("border-bottom-color", "#0154bd").css("color", "#0154bd");
+                $(".collapsible-body table").css("color", "#fff");
+                $('.score_adjust').css("color", "#ffffff");
+                map.setPaintProperty('gaul_0_simple', 'fill-color', '#00aed9');
+                map.setPaintProperty('gaul_0_simple', 'fill-outline-color', '#00aed9');
+                map.setPaintProperty('gaul_0_simple', 'fill-opacity', 0.07);
+
+
+            }
+
+        });
+    </script>
+
+</body>
+<script src="./app_js/navbar_events.js"></script>
+
+</html>
